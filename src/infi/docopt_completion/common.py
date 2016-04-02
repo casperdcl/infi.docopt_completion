@@ -36,7 +36,9 @@ def build_command_tree(pattern, cmd_params):
 def get_usage(cmd):
     error_message = "Failed to run '{cmd} --help'".format(cmd=cmd)
     try:
-        cmd_process = subprocess.Popen([cmd, "--help"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        cmd_process = subprocess.Popen(cmd.strip().split() + ["--help"],
+                                       stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE)
     except OSError:
         raise DocoptCompletionException("{error_message} : command does not exist".format(error_message=error_message))
     # Poll process for new output until finished
